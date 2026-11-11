@@ -1,0 +1,47 @@
+{
+  "writer": {
+    "type": "record",
+    "name": "FaultEvent",
+    "fields": [
+      {"name": "eventId", "type": "string"},
+      {"name": "vehicleId", "type": "string"},
+      {"name": "severity", "type": "int"},
+      {
+        "name": "fault",
+        "type": {
+          "type": "record",
+          "name": "Fault",
+          "fields": [
+            {"name": "code", "type": "string"},
+            {"name": "message", "type": ["null", "string"], "default": null},
+            {"name": "cause", "type": ["null", "Fault"], "default": null},
+            {"name": "tags", "type": {"type": "array", "items": "string"}}
+          ]
+        }
+      }
+    ]
+  },
+  "reader": {
+    "type": "record",
+    "name": "FaultEvent",
+    "fields": [
+      {"name": "eventId", "type": "string"},
+      {"name": "vehicleId", "type": "string"},
+      {"name": "severity", "type": "long"},
+      {"name": "occurredAt", "type": "long", "default": 0},
+      {
+        "name": "fault",
+        "type": {
+          "type": "record",
+          "name": "Fault",
+          "fields": [
+            {"name": "code", "type": "string"},
+            {"name": "component", "type": "string", "default": "unknown"},
+            {"name": "cause", "type": ["null", "Fault", "string"], "default": null},
+            {"name": "tags", "type": {"type": "array", "items": "string"}}
+          ]
+        }
+      }
+    ]
+  }
+}

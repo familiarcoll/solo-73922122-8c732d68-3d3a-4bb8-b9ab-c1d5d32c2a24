@@ -1,0 +1,7 @@
+services:
+  api:
+    build: .
+    image: avro-compat-checker:1.0.0
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
