@@ -24,7 +24,6 @@ from .avro_schema import (
     LONG_MIN,
     LONG_MAX,
     Array,
-    Field,
     Node,
     Primitive,
     Record,

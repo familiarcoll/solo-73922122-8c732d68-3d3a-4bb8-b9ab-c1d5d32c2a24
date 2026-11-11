@@ -1,7 +1,22 @@
 services:
   api:
     build: .
-    image: avro-compat-checker:1.0.0
+    image: avro-ocf-importer:2.0.0
     ports:
       - "8000:8000"
+    volumes:
+      - avro-data:/data
+    environment:
+      # 单 worker 即可;块级事务 + SQLite 写锁已保证多进程并发安全,
+      # 多 worker/多容器共享同一卷时同样不会重复入库或跳块
+      AVRO_DATA_DIR: /data
+      AVRO_DB_PATH: /data/avro_imports.db
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/docs', timeout=5)"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  avro-data:
